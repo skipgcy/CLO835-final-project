@@ -1,0 +1,52 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: app-nfs-117740258
+  namespace: maint-117740258
+
+spec:
+  replicas: 1
+
+  selector:
+    matchLabels:
+      app: app-nfs-117740258
+
+  template:
+    metadata:
+      labels:
+        app: app-nfs-117740258
+
+    spec:
+      affinity:
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            - labelSelector:
+                matchExpressions:
+                  - key: app
+                    operator: In
+                    values:
+                      - nfs-server-117740258
+              topologyKey: kubernetes.io/hostname
+
+      containers:
+        - name: writer
+          image: busybox:1.36
+
+          command:
+            - /bin/sh
+            - -c
+            - |
+              echo "117740258 $(date) nfs START" >> /data/log.txt
+              while true; do
+                echo "117740258 $(date) nfs" >> /data/log.txt
+                sleep 5
+              done
+
+          volumeMounts:
+            - name: nfs-data
+              mountPath: /data
+
+      volumes:
+        - name: nfs-data
+          persistentVolumeClaim:
+            claimName: pvc-nfs-117740258

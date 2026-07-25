@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: app-hostpath-117740258
+  namespace: maint-117740258
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: app-hostpath-117740258
+  template:
+    metadata:
+      labels:
+        app: app-hostpath-117740258
+    spec:
+      nodeSelector:
+        disk: local-117740258
+      containers:
+        - name: writer
+          image: busybox:1.36
+          command:
+            - /bin/sh
+            - -c
+            - |
+              echo "117740258 $(date) hostpath START" >> /data/log.txt
+              while true; do
+                echo "117740258 $(date) hostpath" >> /data/log.txt
+                sleep 5
+              done
+          volumeMounts:
+            - name: host-data
+              mountPath: /data
+      volumes:
+        - name: host-data
+          hostPath:
+            path: /tmp/maint-117740258-hostpath
+            type: DirectoryOrCreate

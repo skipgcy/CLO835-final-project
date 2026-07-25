@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: pv-nfs-117740258
+spec:
+  capacity:
+    storage: 1Gi
+  accessModes:
+    - ReadWriteMany
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: ""
+  mountOptions:
+    - vers=4.1
+    - proto=tcp
+    - timeo=20
+    - retrans=1
+  nfs:
+    server: __NFS_SERVICE_IP__
+    path: /

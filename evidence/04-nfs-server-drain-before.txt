@@ -1,0 +1,22 @@
+=== NFS SERVER DRAIN TEST - BEFORE ===
+Fri Jul 24 21:45:01 EDT 2026
+NFS Server node: maint-117740258-worker3
+NFS baseline: 4040 rows
+NAME                            STATUS   ROLES           AGE    VERSION
+maint-117740258-control-plane   Ready    control-plane   6d3h   v1.36.1
+maint-117740258-worker          Ready    <none>          6d3h   v1.36.1
+maint-117740258-worker2         Ready    <none>          6d3h   v1.36.1
+maint-117740258-worker3         Ready    <none>          6d3h   v1.36.1
+NAME                                      READY   STATUS    RESTARTS        AGE   IP           NODE                      NOMINATED NODE   READINESS GATES
+app-hostpath-117740258-6f749c7c4d-5xst5   1/1     Running   0               10m   10.244.3.4   maint-117740258-worker    <none>           <none>
+app-nfs-117740258-5b76fddc55-lmhn5        1/1     Running   0               10m   10.244.1.3   maint-117740258-worker2   <none>           <none>
+nfs-server-117740258-76b46c755c-587r8     1/1     Running   1 (6h21m ago)   5d    172.19.0.6   maint-117740258-worker3   <none>           <none>
+NAME               CAPACITY   ACCESS MODES   RECLAIM POLICY   STATUS   CLAIM                               STORAGECLASS   VOLUMEATTRIBUTESCLASS   REASON   AGE
+pv-nfs-117740258   1Gi        RWX            Retain           Bound    maint-117740258/pvc-nfs-117740258                  <unset>                          5d
+NAME                STATUS   VOLUME             CAPACITY   ACCESS MODES   STORAGECLASS   VOLUMEATTRIBUTESCLASS   AGE
+pvc-nfs-117740258   Bound    pv-nfs-117740258   1Gi        RWX                           <unset>                 5d
+117740258 Sat Jul 25 01:44:38 UTC 2026 nfs
+117740258 Sat Jul 25 01:44:43 UTC 2026 nfs
+117740258 Sat Jul 25 01:44:48 UTC 2026 nfs
+117740258 Sat Jul 25 01:44:53 UTC 2026 nfs
+117740258 Sat Jul 25 01:44:58 UTC 2026 nfs

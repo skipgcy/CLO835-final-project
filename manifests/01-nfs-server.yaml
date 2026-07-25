@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nfs-server-117740258
+  namespace: maint-117740258
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nfs-server-117740258
+  template:
+    metadata:
+      labels:
+        app: nfs-server-117740258
+    spec:
+      hostNetwork: true
+      dnsPolicy: ClusterFirstWithHostNet
+      containers:
+        - name: nfs-server
+          image: gists/nfs-server:2.6.4
+          imagePullPolicy: IfNotPresent
+          securityContext:
+            privileged: true
+          env:
+            - name: NFS_DIR
+              value: /exports
+            - name: NFS_DOMAIN
+              value: "*"
+            - name: NFS_OPTION
+              value: "fsid=0,rw,sync,no_subtree_check,no_root_squash,insecure,nohide"
+          ports:
+            - name: nfs
+              containerPort: 2049
+              protocol: TCP
+            - name: rpcbind-tcp
+              containerPort: 111
+              protocol: TCP
+            - name: rpcbind-udp
+              containerPort: 111
+              protocol: UDP
+          volumeMounts:
+            - name: nfs-data
+              mountPath: /exports
+      volumes:
+        - name: nfs-data
+          emptyDir: {}

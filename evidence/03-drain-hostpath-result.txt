@@ -1,0 +1,91 @@
+=== HOSTPATH DRAIN TEST ===
+NAME                                      READY   STATUS    RESTARTS        AGE     IP           NODE                      NOMINATED NODE   READINESS GATES
+app-hostpath-117740258-6f749c7c4d-5xst5   1/1     Running   0               2m15s   10.244.3.4   maint-117740258-worker    <none>           <none>
+app-nfs-117740258-5b76fddc55-lmhn5        1/1     Running   0               2m15s   10.244.1.3   maint-117740258-worker2   <none>           <none>
+nfs-server-117740258-76b46c755c-587r8     1/1     Running   1 (6h12m ago)   5d      172.19.0.6   maint-117740258-worker3   <none>           <none>
+NAME                            STATUS   ROLES           AGE    VERSION
+maint-117740258-control-plane   Ready    control-plane   6d3h   v1.36.1
+maint-117740258-worker          Ready    <none>          6d3h   v1.36.1
+maint-117740258-worker2         Ready    <none>          6d3h   v1.36.1
+maint-117740258-worker3         Ready    <none>          6d3h   v1.36.1
+Name:             app-hostpath-117740258-6f749c7c4d-5xst5
+Namespace:        maint-117740258
+Priority:         0
+Service Account:  default
+Node:             maint-117740258-worker/172.19.0.5
+Start Time:       Fri, 24 Jul 2026 21:36:05 -0400
+Labels:           app=app-hostpath-117740258
+                  pod-template-hash=6f749c7c4d
+Annotations:      <none>
+Status:           Running
+IP:               10.244.3.4
+IPs:
+  IP:           10.244.3.4
+Controlled By:  ReplicaSet/app-hostpath-117740258-6f749c7c4d
+Containers:
+  writer:
+    Container ID:  containerd://7a4befb89bf7bcdfbe86d5d626836be493157be44c242b5857b521eb035f936a
+    Image:         busybox:1.36
+    Image ID:      docker.io/library/busybox@sha256:73aaf090f3d85aa34ee199857f03fa3a95c8ede2ffd4cc2cdb5b94e566b11662
+    Port:          <none>
+    Host Port:     <none>
+    Command:
+      /bin/sh
+      -c
+      echo "117740258 $(date) hostpath START" >> /data/log.txt
+      while true; do
+        echo "117740258 $(date) hostpath" >> /data/log.txt
+        sleep 5
+      done
+      
+    State:          Running
+      Started:      Fri, 24 Jul 2026 21:36:05 -0400
+    Ready:          True
+    Restart Count:  0
+    Environment:    <none>
+    Mounts:
+      /data from host-data (rw)
+      /var/run/secrets/kubernetes.io/serviceaccount from kube-api-access-lstzf (ro)
+Conditions:
+  Type                        Status
+  PodReadyToStartContainers   True 
+  Initialized                 True 
+  Ready                       True 
+  ContainersReady             True 
+  PodScheduled                True 
+Volumes:
+  host-data:
+    Type:          HostPath (bare host directory volume)
+    Path:          /tmp/maint-117740258-hostpath
+    HostPathType:  DirectoryOrCreate
+  kube-api-access-lstzf:
+    Type:                    Projected (a volume that contains injected data from multiple sources)
+    TokenExpirationSeconds:  3607
+    ConfigMapName:           kube-root-ca.crt
+    Optional:                false
+    DownwardAPI:             true
+QoS Class:                   BestEffort
+Node-Selectors:              disk=local-117740258
+Tolerations:                 node.kubernetes.io/not-ready:NoExecute op=Exists for 300s
+                             node.kubernetes.io/unreachable:NoExecute op=Exists for 300s
+Events:
+  Type     Reason            Age    From               Message
+  ----     ------            ----   ----               -------
+  Warning  FailedScheduling  2m16s  default-scheduler  0/4 nodes are available: 1 node(s) had untolerated taint(s), 1 node(s) were unschedulable, 2 node(s) didn't match Pod's node affinity/selector. no new claims to deallocate, preemption: 0/4 nodes are available: 4 Preemption is not helpful for scheduling.
+  Warning  FailedScheduling  26s    default-scheduler  0/4 nodes are available: 2 node(s) didn't match Pod's node affinity/selector, 2 node(s) had untolerated taint(s). no new claims to deallocate, preemption: 0/4 nodes are available: 4 Preemption is not helpful for scheduling.
+  Normal   Scheduled         26s    default-scheduler  Successfully assigned maint-117740258/app-hostpath-117740258-6f749c7c4d-5xst5 to maint-117740258-worker
+  Normal   Pulled            26s    kubelet            spec.containers{writer}: Container image "busybox:1.36" already present on machine and can be accessed by the pod
+  Normal   Created           26s    kubelet            spec.containers{writer}: Container created
+  Normal   Started           26s    kubelet            spec.containers{writer}: Container started
+117740258 Sat Jul 25 01:36:20 UTC 2026 hostpath
+117740258 Sat Jul 25 01:36:25 UTC 2026 hostpath
+117740258 Sat Jul 25 01:36:30 UTC 2026 hostpath
+
+=== TEST SUMMARY ===
+The hostPath replacement pod was Pending while maint-117740258-worker was cordoned.
+Reason:
+- The pod required nodeSelector disk=local-117740258.
+- Only maint-117740258-worker had this label.
+- That worker was unschedulable.
+After uncordon, the pod returned to the same worker and continued reading the old hostPath data.
+Test result: PASS

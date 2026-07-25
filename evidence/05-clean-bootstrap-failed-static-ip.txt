@@ -1,0 +1,77 @@
+========================================
+CLO835 Node Maintenance Drill
+Student ID: 117740258
+Cluster: maint-117740258
+========================================
+
+[1/9] Checking required commands...
+Required commands are available.
+
+[2/9] Checking for an existing kind cluster...
+
+[3/9] Creating the kind cluster...
+Creating cluster "maint-117740258" ...
+ • Ensuring node image (kindest/node:v1.36.1) 🖼  ...
+ ✓ Ensuring node image (kindest/node:v1.36.1) 🖼
+ • Preparing nodes 📦 📦 📦 📦   ...
+ ✓ Preparing nodes 📦 📦 📦 📦 
+ • Writing configuration 📜  ...
+ ✓ Writing configuration 📜
+ • Starting control-plane 🕹️  ...
+ ✓ Starting control-plane 🕹️
+ • Installing CNI 🔌  ...
+ ✓ Installing CNI 🔌
+ • Installing StorageClass 💾  ...
+ ✓ Installing StorageClass 💾
+ • Joining worker nodes 🚜  ...
+ ✓ Joining worker nodes 🚜
+Set kubectl context to "kind-maint-117740258"
+You can now use your cluster with:
+
+kubectl cluster-info --context kind-maint-117740258
+
+Thanks for using kind! 😊
+Switched to context "kind-maint-117740258".
+
+[4/9] Waiting for all Kubernetes nodes...
+node/maint-117740258-control-plane condition met
+node/maint-117740258-worker condition met
+node/maint-117740258-worker2 condition met
+node/maint-117740258-worker3 condition met
+NAME                            STATUS   ROLES           AGE   VERSION   INTERNAL-IP   EXTERNAL-IP   OS-IMAGE                       KERNEL-VERSION                              CONTAINER-RUNTIME
+maint-117740258-control-plane   Ready    control-plane   32s   v1.36.1   172.19.0.6    <none>        Debian GNU/Linux 13 (trixie)   6.18.33.2-microsoft-standard-WSL2 (amd64)   containerd://2.3.1
+maint-117740258-worker          Ready    <none>          17s   v1.36.1   172.19.0.2    <none>        Debian GNU/Linux 13 (trixie)   6.18.33.2-microsoft-standard-WSL2 (amd64)   containerd://2.3.1
+maint-117740258-worker2         Ready    <none>          18s   v1.36.1   172.19.0.5    <none>        Debian GNU/Linux 13 (trixie)   6.18.33.2-microsoft-standard-WSL2 (amd64)   containerd://2.3.1
+maint-117740258-worker3         Ready    <none>          18s   v1.36.1   172.19.0.4    <none>        Debian GNU/Linux 13 (trixie)   6.18.33.2-microsoft-standard-WSL2 (amd64)   containerd://2.3.1
+
+[5/9] Labeling the hostPath worker...
+node/maint-117740258-worker labeled
+NAME                     STATUS   ROLES    AGE   VERSION   LABELS
+maint-117740258-worker   Ready    <none>   18s   v1.36.1   beta.kubernetes.io/arch=amd64,beta.kubernetes.io/os=linux,disk=local-117740258,kubernetes.io/arch=amd64,kubernetes.io/hostname=maint-117740258-worker,kubernetes.io/os=linux
+
+[6/9] Applying Kubernetes manifests...
+namespace/maint-117740258 created
+deployment.apps/nfs-server-117740258 created
+service/nfs-svc-117740258 created
+persistentvolume/pv-nfs-117740258 created
+persistentvolumeclaim/pvc-nfs-117740258 created
+deployment.apps/app-hostpath-117740258 created
+deployment.apps/app-nfs-117740258 created
+
+[7/9] Waiting for storage binding...
+PV and PVC are Bound.
+NAME               CAPACITY   ACCESS MODES   RECLAIM POLICY   STATUS   CLAIM                               STORAGECLASS   VOLUMEATTRIBUTESCLASS   REASON   AGE
+pv-nfs-117740258   1Gi        RWX            Retain           Bound    maint-117740258/pvc-nfs-117740258                  <unset>                          3s
+NAME                STATUS   VOLUME             CAPACITY   ACCESS MODES   STORAGECLASS   VOLUMEATTRIBUTESCLASS   AGE
+pvc-nfs-117740258   Bound    pv-nfs-117740258   1Gi        RWX                           <unset>                 3s
+
+[8/9] Waiting for Deployments...
+Waiting for deployment "nfs-server-117740258" rollout to finish: 0 of 1 updated replicas are available...
+deployment "nfs-server-117740258" successfully rolled out
+deployment "app-hostpath-117740258" successfully rolled out
+Waiting for deployment "app-nfs-117740258" rollout to finish: 0 of 1 updated replicas are available...
+error: timed out waiting for the condition
+
+real	4m17.999s
+user	0m9.589s
+sys	0m15.363s

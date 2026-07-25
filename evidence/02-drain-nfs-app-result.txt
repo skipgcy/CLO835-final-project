@@ -1,0 +1,15 @@
+=== NFS APP DRAIN TEST ===
+Baseline: 3013 rows
+New count: 3869 rows
+NAME                                      READY   STATUS    RESTARTS       AGE     IP           NODE                      NOMINATED NODE   READINESS GATES
+app-hostpath-117740258-6f749c7c4d-xqfxj   1/1     Running   2 (6h8m ago)   6d2h    10.244.3.2   maint-117740258-worker    <none>           <none>
+app-nfs-117740258-5b76fddc55-r6qpt        1/1     Running   0              4m39s   10.244.3.3   maint-117740258-worker    <none>           <none>
+nfs-server-117740258-76b46c755c-587r8     1/1     Running   1 (6h8m ago)   5d      172.19.0.6   maint-117740258-worker3   <none>           <none>
+NAME                            STATUS   ROLES           AGE    VERSION
+maint-117740258-control-plane   Ready    control-plane   6d3h   v1.36.1
+maint-117740258-worker          Ready    <none>          6d3h   v1.36.1
+maint-117740258-worker2         Ready    <none>          6d3h   v1.36.1
+maint-117740258-worker3         Ready    <none>          6d3h   v1.36.1
+117740258 Sat Jul 25 01:31:44 UTC 2026 nfs
+117740258 Sat Jul 25 01:31:49 UTC 2026 nfs
+117740258 Sat Jul 25 01:31:54 UTC 2026 nfs
