@@ -208,4 +208,4 @@ This project shows that:
 6. An NFS Server is a shared dependency.
 7. A PV object can still exist even if the real NFS data is lost.
 
-See `runbook.md` for the live demo commands.
+See runbook.md for the live demo commands.
