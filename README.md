@@ -31,6 +31,7 @@ Example:
 
 
 Project Structure
+<img width="1265" height="655" alt="image" src="https://github.com/user-attachments/assets/fc533ef3-3869-49b9-b3f7-7f60c318a975" />
 
 CLO835-node-maintenance/
 kind-config.yaml
