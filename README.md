@@ -33,23 +33,6 @@ Example:
 Project Structure
 <img width="1265" height="655" alt="image" src="https://github.com/user-attachments/assets/fc533ef3-3869-49b9-b3f7-7f60c318a975" />
 
-CLO835-node-maintenance/
-kind-config.yaml
-bootstrap.sh
-README.md
-runbook.md
-manifests/
-   00-namespace.yaml
-   01-nfs-server.yaml
-   02-nfs-service.yaml
-   03-nfs-pv.yaml
-   04-nfs-pvc.yaml
-   05-app-hostpath.yaml
-   06-app-nfs.yaml
-evidence/
-
-
-Requirements
 
 The following tools are required:
 
